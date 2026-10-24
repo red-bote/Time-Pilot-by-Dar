@@ -81,12 +81,12 @@ use ieee.numeric_std.all;
 
 entity time_pilot is
 port(
-  clk_core     : in std_logic; -- Basys3: single clk_core domain (2 x 12.288 MHz)
-  ce6          : in std_logic;  -- former clock_6 rising (e0)
-  ce6n         : in std_logic;  -- former clock_6 falling (e2)
-  ce12         : in std_logic;  -- former clock_12 rising (e0, e2)
-  ce12n        : in std_logic;  -- former clock_12 falling (e1, e3)
-  clk6_lvl     : in std_logic;  -- former clock_6 level (1 from e0 to e2)
+  clk_core     : in std_logic; -- 2 x 12.288 MHz
+  ce6          : in std_logic;  -- former clock_6 rising
+  ce6n         : in std_logic;  -- former clock_6 falling
+  ce12         : in std_logic;  -- former clock_12 rising
+  ce12n        : in std_logic;  -- former clock_12 falling
+  clk6_lvl     : in std_logic;  -- former clock_6 level
   ce14         : in std_logic;  -- former clock_14 rising (sound board)
   reset        : in std_logic;
 -- tv15Khz_mode : in std_logic;
@@ -126,7 +126,7 @@ end time_pilot;
 architecture struct of time_pilot is
 
   signal reset_n: std_logic;
-  signal cpu_cen   : std_logic; -- Basys3: single clk_core domain
+  signal cpu_cen   : std_logic;
   signal clock_div : std_logic_vector(1 downto 0) := "00";
 
   signal hcnt    : std_logic_vector(5 downto 0); -- horizontal counter
@@ -216,7 +216,7 @@ architecture struct of time_pilot is
   signal sound_cmd  : std_logic_vector(7 downto 0);
   signal sound_trig : std_logic;
 
-  signal ch_graphx_addr_h, ch_graphx_addr_m     : std_logic_vector(12 downto 0); -- Basys3: single clk_core domain
+  signal ch_graphx_addr_h, ch_graphx_addr_m     : std_logic_vector(12 downto 0);
   signal ch_palette_addr_h, ch_palette_addr_m   : std_logic_vector(7 downto 0);
   signal sp_graphx_addr_h, sp_graphx_addr_m     : std_logic_vector(13 downto 0);
   signal sp_palette_addr_h, sp_palette_addr_m   : std_logic_vector(7 downto 0);
@@ -230,9 +230,8 @@ begin
 
   reset_n   <= not reset;
 
-  -- Basys3 single domain: the PROM entities (make_vhdl_prom) have a registered
-  -- read and no enable port. Hold their address between ce6 edges so the
-  -- registered output changes only at the former clock_6 rising edge.
+  -- the PROM entities (make_vhdl_prom) have a registered read and no enable: hold
+  -- their address between ce6 edges so the output changes at the former clock_6 edge
   process (clk_core)
   begin
     if rising_edge(clk_core) and ce6 = '1' then
@@ -259,7 +258,7 @@ begin
   end process;
 
   -- make 6MHz clock from 12MHz
-  -- 6MHz clock: replaced by the ce6/ce6n/clk6_lvl enables from the Basys3 wrapper
+  -- 6MHz clock: replaced by the ce6/ce6n/clk6_lvl enables from the wrapper
 
 
   --------------------------
