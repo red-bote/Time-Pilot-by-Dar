@@ -42,7 +42,7 @@ Keys follow the MAME defaults. Player 2 shares the player 1 controls.
 | fire      | Left Ctrl | JA pin 7                        |
 | start 1P  | 1         | btnL                            |
 | start 2P  | 2         | btnR                            |
-| coin      | 5         | btnU / btnD                     |
+| coin      | 5 / 6     | btnU / btnD                     |
 | reset     |           | btnC                            |
 | dips      |           | sw7-0 (dip switch 2)            |
 | coinage   |           | sw11-8 (Coinage A; down = 1C1C) |
